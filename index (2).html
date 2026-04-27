@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApplyAI — Land Your Dream Job</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #18181f;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0f0f8;
+  --muted: #7a7a96;
+  --accent: #6c63ff;
+  --accent2: #a78bfa;
+  --green: #22d3a0;
+  --green-bg: rgba(34,211,160,0.08);
+  --amber: #fbbf24;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --blue-bg: rgba(96,165,250,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden;}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
+.logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:10px;text-decoration:none;cursor:pointer;}
+.logo-icon{width:30px;height:30px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.logo-icon svg{width:16px;height:16px;}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;transition:color 0.2s;cursor:pointer;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{display:flex;gap:10px;}
+.btn-ghost{padding:8px 18px;border:1px solid var(--border2);border-radius:8px;background:transparent;color:var(--text);font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.btn-ghost:hover{background:var(--surface2);}
+.btn-solid{padding:8px 20px;border:none;border-radius:8px;background:var(--accent);color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.btn-solid:hover{background:#7c74ff;transform:translateY(-1px);}
+
+/* PAGE SYSTEM */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+@keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+.anim{animation:fadeUp 0.6s ease both;}
+.anim-d1{animation-delay:0.1s;}
+.anim-d2{animation-delay:0.2s;}
+.anim-d3{animation-delay:0.3s;}
+.anim-d4{animation-delay:0.4s;}
+.anim-d5{animation-delay:0.5s;}
+
+/* ===== HOME PAGE ===== */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+.hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:0.4;pointer-events:none;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border:1px solid rgba(108,99,255,0.3);border-radius:20px;font-size:13px;color:var(--accent2);margin-bottom:32px;background:rgba(108,99,255,0.08);}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(40px,7vw,80px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;}
+h1 .grad{background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 50%,var(--green) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:18px;color:var(--muted);max-width:500px;margin:0 auto 48px;font-weight:300;}
+.search-box{width:100%;max-width:580px;background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:8px;display:flex;gap:8px;margin:0 auto 20px;}
+.search-box input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:15px;padding:10px 14px;font-family:'DM Sans',sans-serif;}
+.search-box input::placeholder{color:var(--muted);}
+.platform-select{background:var(--surface2);border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;padding:0 12px;outline:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.search-btn{padding:12px 24px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.search-btn:hover{background:#7c74ff;}
+.role-chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:64px;}
+.chip{padding:6px 16px;border:1px solid var(--border);border-radius:20px;font-size:13px;color:var(--muted);cursor:pointer;background:var(--surface);transition:all 0.2s;}
+.chip:hover{border-color:var(--accent);color:var(--accent2);background:rgba(108,99,255,0.08);}
+.hero-stats{display:flex;gap:64px;}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--text);}
+.hero-stat-label{font-size:13px;color:var(--muted);margin-top:2px;}
+
+/* HOW IT WORKS */
+.hiw-section{padding:100px 48px;max-width:1200px;margin:0 auto;}
+.sec-label{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:var(--accent);font-weight:500;margin-bottom:12px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:12px;}
+.sec-sub{color:var(--muted);font-size:16px;max-width:480px;font-weight:300;margin-bottom:60px;}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 24px;transition:all 0.25s;}
+.step:hover{border-color:rgba(108,99,255,0.4);transform:translateY(-4px);}
+.step-num{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent);background:rgba(108,99,255,0.1);border:1px solid rgba(108,99,255,0.2);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.step-emoji{font-size:28px;margin-bottom:14px;display:block;}
+.step h3{font-family:'Syne',sans-serif;font-size:16px;font-weight:600;margin-bottom:8px;}
+.step p{font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* JOBS PAGE */
+.jobs-page{padding:100px 48px 60px;max-width:1200px;margin:0 auto;}
+.jobs-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;}
+.jobs-search{display:flex;gap:10px;flex:1;max-width:520px;}
+.jobs-search input{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+.jobs-search input:focus{border-color:var(--accent);}
+.jobs-search select{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0 12px;color:var(--muted);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+.jobs-search button{padding:10px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.filter-btn{padding:6px 16px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.filter-btn.active,.filter-btn:hover{border-color:var(--accent);color:var(--accent2);background:rgba(108,99,255,0.08);}
+.jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;}
+.job-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--green));opacity:0;transition:opacity 0.2s;}
+.job-card:hover{border-color:rgba(108,99,255,0.4);transform:translateY(-3px);}
+.job-card:hover::before{opacity:1;}
+.jc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.company-av{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;}
+.match-pill{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:var(--green-bg);color:var(--green);border:1px solid rgba(34,211,160,0.2);}
+.jc-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;margin-bottom:3px;}
+.jc-company{font-size:13px;color:var(--muted);margin-bottom:2px;}
+.jc-salary{font-size:13px;color:var(--accent2);margin-bottom:14px;font-weight:500;}
+.jc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+.jc-tag{font-size:11px;padding:3px 10px;border-radius:6px;background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+.ats-row{margin-bottom:16px;}
+.ats-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px;}
+.ats-score-val{font-weight:600;color:var(--green);}
+.ats-track{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.ats-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--green));}
+.apply-btn{width:100%;padding:10px;border:1px solid var(--border2);border-radius:10px;background:transparent;color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.apply-btn:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+/* RESUME PAGE */
+.resume-page{padding:100px 48px 60px;max-width:1200px;margin:0 auto;}
+.resume-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px;}
+.card-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;}
+.card-panel h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:600;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;}
+.panel-badge{font-size:11px;padding:4px 10px;border-radius:6px;background:var(--green-bg);color:var(--green);border:1px solid rgba(34,211,160,0.2);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:1px;}
+.form-group input,.form-group textarea,.form-group select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:11px 14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--accent);}
+.form-group textarea{min-height:80px;resize:vertical;}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(122,122,150,0.5);}
+.generate-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.2s;letter-spacing:0.5px;margin-top:8px;}
+.generate-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.resume-doc{background:#fff;border-radius:12px;padding:28px;color:#1a1a2e;min-height:380px;}
+.rdoc-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#1a1a2e;margin-bottom:3px;}
+.rdoc-role{font-size:13px;color:#6c63ff;font-weight:500;margin-bottom:10px;}
+.rdoc-contact{display:flex;gap:14px;font-size:11px;color:#888;margin-bottom:18px;flex-wrap:wrap;}
+.rdoc-section{margin-bottom:16px;}
+.rdoc-sh{font-size:10px;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:#6c63ff;border-bottom:1px solid #e8e8f0;padding-bottom:4px;margin-bottom:10px;}
+.rdoc-item-title{font-size:13px;font-weight:600;color:#1a1a2e;}
+.rdoc-item-sub{font-size:11px;color:#888;margin-bottom:4px;}
+.rdoc-item-desc{font-size:12px;color:#555;line-height:1.55;}
+.rdoc-skills{display:flex;gap:6px;flex-wrap:wrap;}
+.rdoc-skill{font-size:11px;padding:2px 10px;border-radius:4px;background:#f0f0f8;color:#534ab7;}
+.ats-meter{margin-top:20px;padding:16px;background:var(--bg);border-radius:12px;border:1px solid var(--border);}
+.ats-big{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--green);}
+.ats-big-label{font-size:12px;color:var(--muted);margin-top:2px;}
+.ats-big-track{height:8px;background:var(--surface2);border-radius:4px;margin-top:12px;overflow:hidden;}
+.ats-big-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:4px;transition:width 1s ease;}
+.ats-tips{margin-top:16px;display:flex;flex-direction:column;gap:8px;}
+.ats-tip{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);}
+.ats-tip-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+/* TRACKER PAGE */
+.tracker-page{padding:100px 48px 60px;max-width:1200px;margin:0 auto;}
+.tracker-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;}
+.tcard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;}
+.tcard-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:4px;}
+.tcard-label{font-size:13px;color:var(--muted);}
+.tracker-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.tracker-table{width:100%;border-collapse:collapse;}
+.tracker-table th{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);font-weight:500;padding:14px 20px;text-align:left;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tracker-table td{padding:16px 20px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle;}
+.tracker-table tr:last-child td{border-bottom:none;}
+.tracker-table tr:hover td{background:rgba(255,255,255,0.02);}
+.status-pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 12px;border-radius:20px;font-weight:500;}
+.s-applied{background:var(--blue-bg);color:var(--blue);}
+.s-interview{background:rgba(251,191,36,0.1);color:var(--amber);}
+.s-offer{background:var(--green-bg);color:var(--green);}
+.s-reviewing{background:rgba(167,139,250,0.1);color:var(--accent2);}
+.sdot{width:6px;height:6px;border-radius:50%;background:currentColor;}
+.td-company{display:flex;align-items:center;gap:10px;}
+.td-av{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;font-family:'Syne',sans-serif;}
+.ats-mini{height:4px;width:60px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.ats-mini-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));}
+
+/* PRICING PAGE */
+.pricing-page{padding:100px 48px 80px;max-width:1100px;margin:0 auto;text-align:center;}
+.pricing-toggle{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:4px;gap:4px;margin-bottom:60px;}
+.toggle-btn{padding:8px 20px;border-radius:8px;border:none;background:transparent;color:var(--muted);font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+.toggle-btn.active{background:var(--accent);color:#fff;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:left;}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;transition:all 0.2s;position:relative;}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(135deg,rgba(108,99,255,0.06),rgba(167,139,250,0.03));}
+.price-card:hover{transform:translateY(-4px);}
+.feat-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:600;padding:4px 16px;border-radius:20px;white-space:nowrap;font-family:'Syne',sans-serif;}
+.price-label{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:500;margin-bottom:8px;}
+.price-amount{font-family:'Syne',sans-serif;font-size:44px;font-weight:800;margin-bottom:2px;}
+.price-period{font-size:14px;color:var(--muted);margin-bottom:28px;}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.price-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);}
+.pf-check{width:18px;height:18px;border-radius:50%;background:var(--green-bg);border:1px solid rgba(34,211,160,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pf-check svg{width:10px;height:10px;}
+.price-btn{width:100%;padding:13px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.2s;letter-spacing:0.5px;}
+.pb-outline{background:transparent;border:1px solid var(--border2);color:var(--text);}
+.pb-outline:hover{background:var(--surface2);}
+.pb-filled{background:var(--accent);border:none;color:#fff;}
+.pb-filled:hover{background:#7c74ff;}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:48px;margin-top:0;}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:13px;color:var(--muted);}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--text);}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;right:32px;background:var(--green);color:#0a0a0f;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:999;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+/* LOADING STATE */
+.loading-shimmer{background:linear-gradient(90deg,var(--surface) 25%,var(--surface2) 50%,var(--surface) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;height:16px;}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .hero{padding:100px 20px 60px;}
+  .steps{grid-template-columns:1fr 1fr;}
+  .jobs-grid{grid-template-columns:1fr;}
+  .resume-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .tracker-cards{grid-template-columns:1fr 1fr;}
+  .hiw-section,.jobs-page,.resume-page,.tracker-page,.pricing-page{padding-left:20px;padding-right:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-icon">
+      <svg viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+        <path d="M3 10l5 5 9-9"/>
+      </svg>
+    </div>
+    ApplyAI
+  </div>
+  <div class="nav-links">
+    <a onclick="showPage('jobs')">Find Jobs</a>
+    <a onclick="showPage('resume')">Resume Builder</a>
+    <a onclick="showPage('tracker')">Tracker</a>
+    <a onclick="showPage('pricing')">Pricing</a>
+  </div>
+  <div class="nav-cta">
+    <button class="btn-ghost" onclick="showPage('tracker')">Sign in</button>
+    <button class="btn-solid" onclick="showPage('resume')">Get started</button>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Application submitted!</div>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-badge anim"><span class="badge-dot"></span> AI-powered job applications</div>
+    <h1 class="anim anim-d1">Apply smarter,<br><span class="grad">land faster</span></h1>
+    <p class="hero-sub anim anim-d2">AI scrapes LinkedIn, Indeed & more, builds a tailored ATS-optimized resume, and applies for you — automatically.</p>
+
+    <div class="search-box anim anim-d3">
+      <input type="text" placeholder="Job title (e.g. Software Engineer, Data Analyst...)" id="homeSearch"/>
+      <select class="platform-select">
+        <option>All platforms</option>
+        <option>LinkedIn</option>
+        <option>Indeed</option>
+        <option>Glassdoor</option>
+        <option>ZipRecruiter</option>
+      </select>
+      <button class="search-btn" onclick="goSearch()">Find jobs →</button>
+    </div>
+
+    <div class="role-chips anim anim-d4">
+      <span class="chip" onclick="setRole('Software Engineer')">Software Engineer</span>
+      <span class="chip" onclick="setRole('Product Manager')">Product Manager</span>
+      <span class="chip" onclick="setRole('Data Analyst')">Data Analyst</span>
+      <span class="chip" onclick="setRole('UX Designer')">UX Designer</span>
+      <span class="chip" onclick="setRole('Marketing Manager')">Marketing Manager</span>
+      <span class="chip" onclick="setRole('DevOps Engineer')">DevOps Engineer</span>
+    </div>
+
+    <div class="hero-stats anim anim-d5">
+      <div class="hero-stat">
+        <div class="hero-stat-num">12,400+</div>
+        <div class="hero-stat-label">Jobs scraped daily</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">94%</div>
+        <div class="hero-stat-label">ATS pass rate</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3×</div>
+        <div class="hero-stat-label">More interviews</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">48 sec</div>
+        <div class="hero-stat-label">Avg apply time</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="hiw-section">
+    <div class="sec-label">How it works</div>
+    <div class="sec-title">From search to offer,<br>on autopilot</div>
+    <p class="sec-sub">Four steps. Zero manual effort. More interviews.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-emoji">🔍</span>
+        <h3>Job scraping</h3>
+        <p>We scan LinkedIn, Indeed, Glassdoor and ZipRecruiter for roles matching your title, skills and location — updated every hour.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-emoji">🤖</span>
+        <h3>AI resume builder</h3>
+        <p>Our AI reads each job description and generates a tailored resume with the exact keywords recruiters and ATS systems look for.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-emoji">📊</span>
+        <h3>ATS optimizer</h3>
+        <p>We score your resume against 50+ ATS rules, fix gaps, adjust formatting, and ensure you pass automated screening filters.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <span class="step-emoji">🚀</span>
+        <h3>Auto-apply</h3>
+        <p>ApplyAI submits your application with a custom cover letter for every role — while you sleep, work, or do anything else.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 ApplyAI. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+        <a href="#">Blog</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== JOBS PAGE ===== -->
+<div class="page" id="page-jobs">
+  <div class="jobs-page">
+    <div class="sec-label">Job board</div>
+    <div class="sec-title">Matched jobs for you</div>
+    <p class="sec-sub" style="margin-bottom:32px;">AI-ranked by match score, ATS probability, and salary.</p>
+
+    <div class="jobs-top">
+      <div class="jobs-search">
+        <input type="text" placeholder="Search role, skill, company..." id="jobSearch"/>
+        <select>
+          <option>All platforms</option>
+          <option>LinkedIn</option>
+          <option>Indeed</option>
+          <option>Glassdoor</option>
+        </select>
+        <button onclick="showToast('Searching...')">Search</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active">All</button>
+      <button class="filter-btn">Remote</button>
+      <button class="filter-btn">Hybrid</button>
+      <button class="filter-btn">On-site</button>
+      <button class="filter-btn">$80k+</button>
+      <button class="filter-btn">$100k+</button>
+      <button class="filter-btn">$120k+</button>
+      <button class="filter-btn">Entry level</button>
+      <button class="filter-btn">Senior</button>
+    </div>
+
+    <div class="jobs-grid" id="jobsGrid"></div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 ApplyAI. All rights reserved.</div>
+      <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== RESUME PAGE ===== -->
+<div class="page" id="page-resume">
+  <div class="resume-page">
+    <div class="sec-label">Resume builder</div>
+    <div class="sec-title">Your AI resume,<br>tailored per job</div>
+
+    <div class="resume-grid">
+      <div class="card-panel">
+        <h3>Your profile</h3>
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" placeholder="Alex Johnson" id="rName"/>
+        </div>
+        <div class="form-group">
+          <label>Job title you're applying for</label>
+          <input type="text" placeholder="e.g. Senior Data Analyst" id="rRole"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="alex@email.com" id="rEmail"/>
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" placeholder="+1 (555) 000-0000" id="rPhone"/>
+        </div>
+        <div class="form-group">
+          <label>Key skills (comma separated)</label>
+          <input type="text" placeholder="Python, SQL, Tableau, Power BI" id="rSkills"/>
+        </div>
+        <div class="form-group">
+          <label>Work experience summary</label>
+          <textarea placeholder="e.g. 4 years as a data analyst at a fintech startup. Built dashboards, ran A/B tests, reduced churn by 18%..." id="rExp"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Job description to target (paste here)</label>
+          <textarea placeholder="Paste the job description here and AI will tailor your resume to it..." id="rJD"></textarea>
+        </div>
+        <button class="generate-btn" onclick="generateResume()">⚡ Generate ATS Resume</button>
+      </div>
+
+      <div>
+        <div class="card-panel" style="margin-bottom:20px;">
+          <h3>Resume preview <span class="panel-badge" id="resumeStatus">Waiting...</span></h3>
+          <div class="resume-doc" id="resumeDoc">
+            <div class="rdoc-name">Your Name</div>
+            <div class="rdoc-role">Target Role</div>
+            <div class="rdoc-contact">
+              <span>your@email.com</span>
+              <span>+1 (555) 000-0000</span>
+              <span>LinkedIn</span>
+            </div>
+            <div class="rdoc-section">
+              <div class="rdoc-sh">Summary</div>
+              <div class="rdoc-item-desc" style="color:#777;font-style:italic;">Fill in your details and click Generate — AI will write a tailored summary here.</div>
+            </div>
+            <div class="rdoc-section">
+              <div class="rdoc-sh">Experience</div>
+              <div class="rdoc-item-title">Previous Role</div>
+              <div class="rdoc-item-sub">Company · 2022–Present</div>
+              <div class="rdoc-item-desc" style="color:#bbb;">• Your AI-tailored bullet points will appear here<br>• Matched to the job description keywords<br>• Optimized for ATS systems</div>
+            </div>
+            <div class="rdoc-section">
+              <div class="rdoc-sh">Skills</div>
+              <div class="rdoc-skills">
+                <span class="rdoc-skill">Skill 1</span>
+                <span class="rdoc-skill">Skill 2</span>
+                <span class="rdoc-skill">Skill 3</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <h3>ATS score</h3>
+          <div class="ats-meter">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+              <div>
+                <div class="ats-big" id="atsScore">--</div>
+                <div class="ats-big-label">ATS compatibility score</div>
+              </div>
+              <div style="font-size:13px;color:var(--muted);">out of 100</div>
+            </div>
+            <div class="ats-big-track"><div class="ats-big-fill" id="atsFill" style="width:0%;"></div></div>
+          </div>
+          <div class="ats-tips" id="atsTips" style="margin-top:16px;">
+            <div class="ats-tip"><span class="ats-tip-dot"></span> Generate your resume to see ATS tips</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 ApplyAI. All rights reserved.</div>
+      <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== TRACKER PAGE ===== -->
+<div class="page" id="page-tracker">
+  <div class="tracker-page">
+    <div class="sec-label">Application tracker</div>
+    <div class="sec-title">Your job pipeline</div>
+
+    <div class="tracker-cards" style="margin-top:40px;">
+      <div class="tcard">
+        <div class="tcard-num" style="color:var(--blue);">24</div>
+        <div class="tcard-label">Total applied</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-num" style="color:var(--amber);">6</div>
+        <div class="tcard-label">Interviews scheduled</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-num" style="color:var(--green);">2</div>
+        <div class="tcard-label">Offers received</div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-num" style="color:var(--accent2);">89</div>
+        <div class="tcard-label">Avg ATS score</div>
+      </div>
+    </div>
+
+    <div class="tracker-table-wrap">
+      <table class="tracker-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Platform</th>
+            <th>ATS score</th>
+            <th>Status</th>
+            <th>Applied</th>
+          </tr>
+        </thead>
+        <tbody id="trackerBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 ApplyAI. All rights reserved.</div>
+      <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== PRICING PAGE ===== -->
+<div class="page" id="page-pricing">
+  <div class="pricing-page">
+    <div class="sec-label">Pricing</div>
+    <div class="sec-title">Simple, transparent pricing</div>
+    <p class="sec-sub" style="margin:0 auto 32px;max-width:400px;color:var(--muted);">Start free. Upgrade when you're ready to go full autopilot.</p>
+
+    <div class="pricing-toggle">
+      <button class="toggle-btn active" onclick="setBilling('monthly',this)">Monthly</button>
+      <button class="toggle-btn" onclick="setBilling('annual',this)">Annual (save 30%)</button>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-label">Starter</div>
+        <div class="price-amount">$0</div>
+        <div class="price-period">Free forever</div>
+        <ul class="price-features">
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>5 job searches per day</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>3 AI resume generations</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>ATS score checker</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Application tracker</li>
+        </ul>
+        <button class="price-btn pb-outline" onclick="showToast('Welcome to Starter!')">Get started free</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="feat-badge">Most popular</div>
+        <div class="price-label">Pro</div>
+        <div class="price-amount" id="proPrice">$29</div>
+        <div class="price-period" id="proPeriod">per month</div>
+        <ul class="price-features">
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited job searches</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited AI resumes</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Auto-apply (50/month)</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>AI cover letters</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>LinkedIn + Indeed + Glassdoor</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Priority support</li>
+        </ul>
+        <button class="price-btn pb-filled" onclick="showToast('Starting Pro trial!')">Start 7-day free trial</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-label">Unlimited</div>
+        <div class="price-amount" id="unlimPrice">$79</div>
+        <div class="price-period" id="unlimPeriod">per month</div>
+        <ul class="price-features">
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Everything in Pro</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Unlimited auto-apply</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>All job platforms</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Interview prep AI</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Salary negotiation coach</li>
+          <li><span class="pf-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="#22d3a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Dedicated account manager</li>
+        </ul>
+        <button class="price-btn pb-outline" onclick="showToast('Contacting sales...')">Contact sales</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-copy">© 2025 ApplyAI. All rights reserved.</div>
+      <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
+    </div>
+  </footer>
+</div>
+
+<script>
+// PAGE ROUTING
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+  if(name==='jobs') renderJobs();
+  if(name==='tracker') renderTracker();
+}
+
+function goSearch(){
+  showPage('jobs');
+  const q = document.getElementById('homeSearch').value;
+  if(q) document.getElementById('jobSearch').value = q;
+}
+function setRole(r){
+  document.getElementById('homeSearch').value = r;
+  showPage('jobs');
+  setTimeout(()=>{ document.getElementById('jobSearch').value = r; },100);
+}
+
+// FILTER BUTTONS
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// JOBS DATA
+const jobs = [
+  {title:'Senior Data Analyst',company:'Google',av:'G',color:'#E6F1FB',textColor:'#185FA5',location:'Remote',salary:'$120k–$145k',tags:['Python','SQL','BigQuery'],ats:92,match:96,platform:'LinkedIn'},
+  {title:'Data Analyst',company:'Meta',av:'M',color:'#FAECE7',textColor:'#993C1D',location:'Chicago, IL',salary:'$105k–$130k',tags:['R','Tableau','Excel'],ats:88,match:91,platform:'Indeed'},
+  {title:'Business Analyst',company:'Amazon',av:'A',color:'#EEEDFE',textColor:'#534AB7',location:'Hybrid',salary:'$95k–$115k',tags:['SQL','Power BI','AWS'],ats:85,match:87,platform:'LinkedIn'},
+  {title:'Product Analyst',company:'Spotify',av:'S',color:'#EAF3DE',textColor:'#3B6D11',location:'Remote',salary:'$110k–$135k',tags:['Python','Mixpanel','SQL'],ats:90,match:89,platform:'Glassdoor'},
+  {title:'Data Engineer',company:'Netflix',av:'N',color:'#FCEBEB',textColor:'#A32D2D',location:'Los Angeles',salary:'$130k–$160k',tags:['Spark','Kafka','Python'],ats:87,match:84,platform:'Indeed'},
+  {title:'Analytics Engineer',company:'Airbnb',av:'A',color:'#FAEEDA',textColor:'#854F0B',location:'Hybrid',salary:'$115k–$140k',tags:['dbt','SQL','Looker'],ats:93,match:94,platform:'LinkedIn'},
+];
+
+function renderJobs(){
+  const grid = document.getElementById('jobsGrid');
+  grid.innerHTML = jobs.map(j=>`
+    <div class="job-card">
+      <div class="jc-top">
+        <div class="company-av" style="background:${j.color};color:${j.textColor};">${j.av}</div>
+        <span class="match-pill">${j.match}% match</span>
+      </div>
+      <div class="jc-title">${j.title}</div>
+      <div class="jc-company">${j.company} · ${j.location}</div>
+      <div class="jc-salary">${j.salary}</div>
+      <div class="jc-tags">${j.tags.map(t=>`<span class="jc-tag">${t}</span>`).join('')}</div>
+      <div class="ats-row">
+        <div class="ats-meta"><span>ATS score</span><span class="ats-score-val">${j.ats}</span></div>
+        <div class="ats-track"><div class="ats-fill" style="width:${j.ats}%;"></div></div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">via ${j.platform}</div>
+      <button class="apply-btn" onclick="applyJob('${j.title}','${j.company}')">Auto-apply →</button>
+    </div>
+  `).join('');
+}
+
+function applyJob(title, company){
+  showToast(`✓ Applied to ${title} at ${company}!`);
+}
+
+// TRACKER DATA
+const applications = [
+  {company:'Google',av:'G',color:'#E6F1FB',textColor:'#185FA5',role:'Senior Data Analyst',platform:'LinkedIn',ats:92,status:'interview',date:'Apr 22'},
+  {company:'Airbnb',av:'A',color:'#FAEEDA',textColor:'#854F0B',role:'Analytics Engineer',platform:'LinkedIn',ats:93,status:'offer',date:'Apr 20'},
+  {company:'Meta',av:'M',color:'#FAECE7',textColor:'#993C1D',role:'Data Analyst',platform:'Indeed',ats:88,status:'reviewing',date:'Apr 19'},
+  {company:'Netflix',av:'N',color:'#FCEBEB',textColor:'#A32D2D',role:'Data Engineer',platform:'Indeed',ats:87,status:'applied',date:'Apr 18'},
+  {company:'Spotify',av:'S',color:'#EAF3DE',textColor:'#3B6D11',role:'Product Analyst',platform:'Glassdoor',ats:90,status:'interview',date:'Apr 17'},
+  {company:'Amazon',av:'A',color:'#EEEDFE',textColor:'#534AB7',role:'Business Analyst',platform:'LinkedIn',ats:85,status:'applied',date:'Apr 15'},
+];
+const statusMap = {applied:['s-applied','Applied'],interview:['s-interview','Interview'],offer:['s-offer','Offer'],reviewing:['s-reviewing','Reviewing']};
+
+function renderTracker(){
+  document.getElementById('trackerBody').innerHTML = applications.map(a=>`
+    <tr>
+      <td><div class="td-company"><div class="td-av" style="background:${a.color};color:${a.textColor};">${a.av}</div>${a.company}</div></td>
+      <td>${a.role}</td>
+      <td style="color:var(--muted);">${a.platform}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="ats-mini"><div class="ats-mini-fill" style="width:${a.ats}%;"></div></div>
+          <span style="font-size:13px;color:var(--green);font-weight:600;">${a.ats}</span>
+        </div>
+      </td>
+      <td><span class="status-pill ${statusMap[a.status][0]}"><span class="sdot"></span>${statusMap[a.status][1]}</span></td>
+      <td style="color:var(--muted);">${a.date}</td>
+    </tr>
+  `).join('');
+}
+
+// RESUME GENERATOR
+function generateResume(){
+  const name = document.getElementById('rName').value || 'Alex Johnson';
+  const role = document.getElementById('rRole').value || 'Senior Data Analyst';
+  const email = document.getElementById('rEmail').value || 'alex@email.com';
+  const phone = document.getElementById('rPhone').value || '+1 (555) 123-4567';
+  const skills = document.getElementById('rSkills').value || 'Python, SQL, Tableau, Power BI, Excel';
+  const exp = document.getElementById('rExp').value || '4 years as a data analyst';
+
+  const skillList = skills.split(',').map(s=>s.trim()).filter(Boolean);
+  const score = 85 + Math.floor(Math.random()*12);
+
+  document.getElementById('resumeStatus').textContent = 'ATS Optimized ✓';
+  document.getElementById('atsScore').textContent = score;
+  document.getElementById('atsFill').style.width = score+'%';
+
+  document.getElementById('resumeDoc').innerHTML = `
+    <div class="rdoc-name">${name}</div>
+    <div class="rdoc-role">${role}</div>
+    <div class="rdoc-contact">
+      <span>${email}</span>
+      <span>${phone}</span>
+      <span>linkedin.com/in/${name.split(' ')[0].toLowerCase()}</span>
+    </div>
+    <div class="rdoc-section">
+      <div class="rdoc-sh">Professional Summary</div>
+      <div class="rdoc-item-desc">Results-driven ${role} with ${exp.substring(0,60)}... Proven track record of translating complex data into actionable insights that drive business growth and operational efficiency.</div>
+    </div>
+    <div class="rdoc-section">
+      <div class="rdoc-sh">Experience</div>
+      <div class="rdoc-item-title">${role}</div>
+      <div class="rdoc-item-sub">Previous Company · 2022–Present</div>
+      <div class="rdoc-item-desc">• Developed and maintained ${skillList[0]||'Python'}-based data pipelines processing 2M+ records daily<br>• Built interactive ${skillList[2]||'Tableau'} dashboards reducing reporting time by 40%<br>• Collaborated with cross-functional teams to define KPIs and optimize business metrics</div>
+    </div>
+    <div class="rdoc-section">
+      <div class="rdoc-sh">Education</div>
+      <div class="rdoc-item-title">B.S. Computer Science / Statistics</div>
+      <div class="rdoc-item-sub">University · 2018–2022 · GPA 3.7</div>
+    </div>
+    <div class="rdoc-section">
+      <div class="rdoc-sh">Skills</div>
+      <div class="rdoc-skills">${skillList.map(s=>`<span class="rdoc-skill">${s}</span>`).join('')}</div>
+    </div>
+  `;
+
+  document.getElementById('atsTips').innerHTML = [
+    'Keywords matched to job description',
+    'Clean single-column ATS-friendly format',
+    'Quantified achievements included',
+    'Action verbs on all bullet points',
+    'Correct date formatting detected',
+  ].map(t=>`<div class="ats-tip"><span class="ats-tip-dot"></span>${t}</div>`).join('');
+
+  showToast('Resume generated! ATS score: '+score);
+}
+
+// PRICING TOGGLE
+function setBilling(type, btn){
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(type==='annual'){
+    document.getElementById('proPrice').textContent='$20';
+    document.getElementById('unlimPrice').textContent='$55';
+    document.getElementById('proPeriod').textContent='per month, billed annually';
+    document.getElementById('unlimPeriod').textContent='per month, billed annually';
+  } else {
+    document.getElementById('proPrice').textContent='$29';
+    document.getElementById('unlimPrice').textContent='$79';
+    document.getElementById('proPeriod').textContent='per month';
+    document.getElementById('unlimPeriod').textContent='per month';
+  }
+}
+
+// TOAST
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
